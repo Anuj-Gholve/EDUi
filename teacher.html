@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EDU.i — Teacher Dashboard</title>
+  <meta name="description"
+    content="EDU.i — AI-powered attendance management system with facial recognition, real-time analytics, and automated alerts." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+  <link rel="stylesheet" href="teacher.css" />
+</head>
+<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
+
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:8px">
+        <div class="brand-icon">
+          <span class="material-icons-round">smart_toy</span>
+        </div>
+        <span class="brand-text">EDU<span class="brand-accent">.i</span></span>
+      </a>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-page="dashboard" id="nav-dashboard">
+        <span class="material-icons-round">dashboard</span>
+        <span class="nav-label">Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" data-page="session" id="nav-session">
+        <span class="material-icons-round">videocam</span>
+        <span class="nav-label">Start Session</span>
+      </a>
+      <a href="#" class="nav-item" data-page="results" id="nav-results">
+        <span class="material-icons-round">face</span>
+        <span class="nav-label">Recognition</span>
+      </a>
+      <a href="#" class="nav-item" data-page="review" id="nav-review">
+        <span class="material-icons-round">fact_check</span>
+        <span class="nav-label">Review</span>
+      </a>
+      <a href="#" class="nav-item" data-page="reports" id="nav-reports">
+        <span class="material-icons-round">assessment</span>
+        <span class="nav-label">Reports</span>
+      </a>
+      <a href="#" class="nav-item" data-page="alerts" id="nav-alerts">
+        <span class="material-icons-round">notifications_active</span>
+        <span class="nav-label">Alerts</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-small">AK</div>
+        <div class="user-info-small">
+          <span class="user-name-small">Prof. A. Kumar</span>
+          <span class="user-role-small">Administrator</span>
+        </div>
+      </div>
+      <button class="logout-btn" id="logoutBtn" title="Logout">
+        <span class="material-icons-round">logout</span>
+        <span class="logout-label">Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content" id="mainContent">
+    <!-- Top Navbar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" id="menuToggle">
+          <span class="material-icons-round">menu</span>
+        </button>
+        <h1 class="page-title" id="pageTitle">Dashboard</h1>
+      </div>
+      <div class="topbar-right">
+        <div class="search-box">
+          <span class="material-icons-round">search</span>
+          <input type="text" placeholder="Search students..." />
+        </div>
+        <button class="topbar-icon-btn" id="notifBtn">
+          <span class="material-icons-round">notifications</span>
+          <span class="notif-badge">3</span>
+        </button>
+        <div class="topbar-user" id="topbarUser">
+          <div class="user-avatar">AK</div>
+          <div class="user-info">
+            <span class="user-name">Prof. A. Kumar</span>
+            <span class="user-role">Computer Science Dept.</span>
+          </div>
+          <span class="material-icons-round">expand_more</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== DASHBOARD PAGE ===== -->
+    <section class="page active" id="page-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card stat-card--blue">
+          <div class="stat-icon"><span class="material-icons-round">groups</span></div>
+          <div class="stat-body">
+            <span class="stat-value" id="statTotal">248</span>
+            <span class="stat-label">Total Students</span>
+          </div>
+          <div class="stat-trend up"><span class="material-icons-round">trending_up</span> +12</div>
+        </div>
+        <div class="stat-card stat-card--green">
+          <div class="stat-icon"><span class="material-icons-round">check_circle</span></div>
+          <div class="stat-body">
+            <span class="stat-value" id="statPresent">212</span>
+            <span class="stat-label">Present Today</span>
+          </div>
+          <div class="stat-trend up"><span class="material-icons-round">trending_up</span> 85.5%</div>
+        </div>
+        <div class="stat-card stat-card--red">
+          <div class="stat-icon"><span class="material-icons-round">cancel</span></div>
+          <div class="stat-body">
+            <span class="stat-value" id="statAbsent">36</span>
+            <span class="stat-label">Absent Today</span>
+          </div>
+          <div class="stat-trend down"><span class="material-icons-round">trending_down</span> 14.5%</div>
+        </div>
+        <div class="stat-card stat-card--purple">
+          <div class="stat-icon"><span class="material-icons-round">percent</span></div>
+          <div class="stat-body">
+            <span class="stat-value" id="statPercent">85.5%</span>
+            <span class="stat-label">Attendance Rate</span>
+          </div>
+          <div class="stat-trend up"><span class="material-icons-round">trending_up</span> +2.3%</div>
+        </div>
+        <div class="stat-card stat-card--orange">
+          <div class="stat-icon"><span class="material-icons-round">warning</span></div>
+          <div class="stat-body">
+            <span class="stat-value" id="statLow">18</span>
+            <span class="stat-label">Low Attendance</span>
+          </div>
+          <div class="stat-trend down"><span class="material-icons-round">trending_down</span> &lt;75%</div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Attendance Trend Chart -->
+        <div class="card chart-card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">show_chart</span> Attendance Trend — Last 7 Days
+            </h2>
+            <div class="card-actions">
+              <select class="small-select">
+                <option>All Classes</option>
+                <option>CS-A</option>
+                <option>CS-B</option>
+                <option>IT-A</option>
+              </select>
+            </div>
+          </div>
+          <div class="chart-container" id="chartContainer">
+            <canvas id="trendChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Low Attendance Table -->
+        <div class="card table-card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">person_off</span> Low Attendance Students</h2>
+            <button class="btn btn-sm btn-outline">View All</button>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table" id="lowAttendanceTable">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Class</th>
+                  <th>Attendance</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Filled by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom: 20px;">
+      <div class="card-header">
+        <h2 class="card-title">
+          <span class="material-icons-round">report</span>
+          Check Reports
+        </h2>
+      </div>
+
+      <div style="display:flex; gap:15px; margin-bottom:15px;">
+        <button style="padding-left: 15px;" 
+        class="btn btn-primary" onclick="showNormalReports()">
+          Normal Reports
+        </button>
+
+        <button class="btn btn-outline" onclick="showAnonymousReports()">
+          Anonymous Reports
+        </button>
+      </div>
+
+      <!-- Output -->
+      <div id="reportsContainer"></div>
+      <div id="anonymousReportsContainer"></div>
+    </div>
+
+      </div>
+    </section>
+
+    <!-- ===== START SESSION PAGE ===== -->
+    <section class="page" id="page-session">
+      <div class="session-grid">
+        <!-- Left: Config -->
+        <div class="card session-config">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">settings</span> Session Configuration</h2>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Select Class</label>
+            <select class="form-select" id="sessionClass">
+              <option value="">— Choose Class —</option>
+              <option>CS-A (3rd Year)</option>
+              <option>CS-B (3rd Year)</option>
+              <option>IT-A (2nd Year)</option>
+              <option>IT-B (2nd Year)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Select Subject</label>
+            <select class="form-select" id="sessionSubject">
+              <option value="">— Choose Subject —</option>
+              <option>Machine Learning</option>
+              <option>Data Structures</option>
+              <option>Operating Systems</option>
+              <option>Computer Networks</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date & Time</label>
+            <input type="datetime-local" class="form-input" id="sessionDate" />
+          </div>
+          <button class="btn btn-primary btn-block" id="btnStartSession">
+            <span class="material-icons-round">play_circle</span> Start Session
+          </button>
+        </div>
+
+        <!-- Right: Image Upload -->
+        <div class="card session-upload">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">add_a_photo</span> Upload Classroom Images</h2>
+            <span class="badge badge-info">3 images required</span>
+          </div>
+          <div class="upload-grid">
+            <div class="upload-zone" id="uploadFront" data-label="Front View">
+              <span class="material-icons-round upload-icon">add_photo_alternate</span>
+              <p class="upload-text">Drop image or <span class="upload-link">browse</span></p>
+              <p class="upload-hint">Front angle of classroom</p>
+              <input type="file" accept="image/*" class="upload-input" />
+            </div>
+            <div class="upload-zone" id="uploadLeft" data-label="Left View">
+              <span class="material-icons-round upload-icon">add_photo_alternate</span>
+              <p class="upload-text">Drop image or <span class="upload-link">browse</span></p>
+              <p class="upload-hint">Left angle of classroom</p>
+              <input type="file" accept="image/*" class="upload-input" />
+            </div>
+            <div class="upload-zone" id="uploadRight" data-label="Right View">
+              <span class="material-icons-round upload-icon">add_photo_alternate</span>
+              <p class="upload-text">Drop image or <span class="upload-link">browse</span></p>
+              <p class="upload-hint">Right angle of classroom</p>
+              <input type="file" accept="image/*" class="upload-input" />
+            </div>
+          </div>
+          <button class="btn btn-accent btn-block" id="btnSubmitImages" disabled>
+            <span class="material-icons-round">cloud_upload</span> Submit & Process
+          </button>
+        </div>
+      </div>
+
+      <!-- Processing Overlay -->
+      <div class="processing-overlay" id="processingOverlay">
+        <div class="processing-card">
+          <div class="processing-spinner"></div>
+          <h3 class="processing-title">Processing Attendance</h3>
+          <div class="processing-steps">
+            <div class="step" id="step1">
+              <span class="material-icons-round step-icon">pending</span>
+              <span class="step-text">Detecting faces…</span>
+            </div>
+            <div class="step" id="step2">
+              <span class="material-icons-round step-icon">pending</span>
+              <span class="step-text">Matching students…</span>
+            </div>
+            <div class="step" id="step3">
+              <span class="material-icons-round step-icon">pending</span>
+              <span class="step-text">Generating attendance…</span>
+            </div>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="processingProgress"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== RECOGNITION RESULTS PAGE ===== -->
+    <section class="page" id="page-results">
+      <div class="results-stats">
+        <div class="mini-stat-card">
+          <span class="material-icons-round mini-stat-icon blue">face</span>
+          <div>
+            <span class="mini-stat-value">42</span>
+            <span class="mini-stat-label">Faces Detected</span>
+          </div>
+        </div>
+        <div class="mini-stat-card">
+          <span class="material-icons-round mini-stat-icon green">how_to_reg</span>
+          <div>
+            <span class="mini-stat-value">36</span>
+            <span class="mini-stat-label">Matched Students</span>
+          </div>
+        </div>
+        <div class="mini-stat-card">
+          <span class="material-icons-round mini-stat-icon orange">help</span>
+          <div>
+            <span class="mini-stat-value">4</span>
+            <span class="mini-stat-label">Unknown Faces</span>
+          </div>
+        </div>
+        <div class="mini-stat-card">
+          <span class="material-icons-round mini-stat-icon red">person_off</span>
+          <div>
+            <span class="mini-stat-value">8</span>
+            <span class="mini-stat-label">Absent Students</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-icons-round">face_retouching_natural</span> Recognition Results
+          </h2>
+          <div class="card-actions">
+            <button class="btn btn-sm btn-outline"><span class="material-icons-round">filter_list</span> Filter</button>
+            <button class="btn btn-sm btn-outline"><span class="material-icons-round">download</span> Export</button>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="resultsTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Student Name</th>
+                <th>Roll No.</th>
+                <th>Confidence</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Filled by JS -->
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary btn-lg" id="btnConfirmAttendance">
+            <span class="material-icons-round">verified</span> Confirm & Save Attendance
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== REVIEW ATTENDANCE PAGE ===== -->
+    <section class="page" id="page-review">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-icons-round">edit_note</span> Review & Edit Attendance</h2>
+          <div class="card-actions">
+            <select class="small-select" id="reviewClass">
+              <option>CS-A (3rd Year)</option>
+              <option>CS-B (3rd Year)</option>
+              <option>IT-A (2nd Year)</option>
+            </select>
+            <select class="small-select" id="reviewSubject">
+              <option>Machine Learning</option>
+              <option>Data Structures</option>
+            </select>
+            <input type="date" class="small-input" id="reviewDate" />
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="reviewTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Student Name</th>
+                <th>Roll No.</th>
+                <th>Confidence</th>
+                <th>Status</th>
+                <th>Toggle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Filled by JS -->
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-outline"><span class="material-icons-round">undo</span> Reset Changes</button>
+          <button class="btn btn-primary" id="btnSaveReview">
+            <span class="material-icons-round">save</span> Save Changes
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== REPORTS PAGE ===== -->
+    <section class="page" id="page-reports">
+      <div class="card filter-card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-icons-round">tune</span> Report Filters</h2>
+        </div>
+        <div class="filters-row">
+          <div class="form-group">
+            <label class="form-label">Class</label>
+            <select class="form-select" id="reportClass">
+              <option>All Classes</option>
+              <option>CS-A (3rd Year)</option>
+              <option>CS-B (3rd Year)</option>
+              <option>IT-A (2nd Year)</option>
+              <option>IT-B (2nd Year)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Subject</label>
+            <select class="form-select" id="reportSubject">
+              <option>All Subjects</option>
+              <option>Machine Learning</option>
+              <option>Data Structures</option>
+              <option>Operating Systems</option>
+              <option>Computer Networks</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">From</label>
+            <input type="date" class="form-input" id="reportFrom" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">To</label>
+            <input type="date" class="form-input" id="reportTo" />
+          </div>
+          <div class="form-group form-group-btn">
+            <button class="btn btn-primary" id="btnGenerateReport">
+              <span class="material-icons-round">search</span> Generate
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-icons-round">table_chart</span> Attendance Report</h2>
+          <div class="card-actions">
+            <button class="btn btn-sm btn-outline"><span class="material-icons-round">download</span> Export
+              CSV</button>
+            <button class="btn btn-sm btn-outline"><span class="material-icons-round">print</span> Print</button>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="reportsTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Student Name</th>
+                <th>Roll No.</th>
+                <th>Total Classes</th>
+                <th>Present</th>
+                <th>Attendance %</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Filled by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ALERTS PAGE ===== -->
+    <section class="page" id="page-alerts">
+      <div class="alerts-header-row">
+        <div class="card alerts-config-card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">tune</span> Alert Configuration</h2>
+          </div>
+          <div class="alert-config-body">
+            <div class="alert-threshold">
+              <span class="threshold-label">Attendance Threshold</span>
+              <span class="threshold-value">75%</span>
+            </div>
+            <div class="alert-toggle-row">
+              <span>Auto Alerts</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="autoAlertToggle" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="alert-toggle-row">
+              <span>Email Notifications</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="emailToggle" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="alert-stat-cards">
+          <div class="mini-stat-card">
+            <span class="material-icons-round mini-stat-icon red">warning</span>
+            <div>
+              <span class="mini-stat-value">18</span>
+              <span class="mini-stat-label">Students Below 75%</span>
+            </div>
+          </div>
+          <div class="mini-stat-card">
+            <span class="material-icons-round mini-stat-icon orange">email</span>
+            <div>
+              <span class="mini-stat-value">12</span>
+              <span class="mini-stat-label">Alerts Sent Today</span>
+            </div>
+          </div>
+          <div class="mini-stat-card">
+            <span class="material-icons-round mini-stat-icon green">mark_email_read</span>
+            <div>
+              <span class="mini-stat-value">8</span>
+              <span class="mini-stat-label">Acknowledged</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-icons-round">notification_important</span> Low Attendance Alerts
+          </h2>
+          <button class="btn btn-sm btn-accent" id="btnSendAllAlerts">
+            <span class="material-icons-round">send</span> Send All Alerts
+          </button>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="alertsTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Student Name</th>
+                <th>Roll No.</th>
+                <th>Class</th>
+                <th>Attendance %</th>
+                <th>Email</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Filled by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+  </main>
+
+  <script src="auth.js"></script>
+  <script>
+    // Auth guard — redirect to login if not authenticated as teacher
+    AUTH.guard('teacher');
+    document.getElementById('logoutBtn').addEventListener('click', () => AUTH.logout());
+  </script>
+  <script src="teacher.js"></script>
+</body>
+
+</html>

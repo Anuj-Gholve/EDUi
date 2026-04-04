@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EDU.i — Student Dashboard</title>
+  <meta name="description" content="EDU.i Student Dashboard — track your attendance, view reports, and receive alerts." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+  <link rel="stylesheet" href="student.css" />
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:8px">
+        <div class="brand-icon"><span class="material-icons-round">school</span></div>
+        <span class="brand-text">EDU<span class="brand-accent">.i</span></span>
+      </a>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-page="dashboard" id="nav-dashboard">
+        <span class="material-icons-round">dashboard</span><span class="nav-label">Dashboard</span>
+      </a>
+      
+      <a href="#" class="nav-item" data-page="attendance" id="nav-attendance">
+        <span class="material-icons-round">checklist</span><span class="nav-label">Attendance</span>
+      </a>
+      <a href="#" class="nav-item" data-page="subjects" id="nav-subjects">
+        <span class="material-icons-round">menu_book</span><span class="nav-label">Subjects</span>
+      </a>
+      <a href="#" class="nav-item" data-page="reports" id="nav-reports">
+        <span class="material-icons-round">assessment</span><span class="nav-label">Reports</span>
+      </a>
+      <a href="#" class="nav-item" data-page="alerts" id="nav-alerts">
+        <span class="material-icons-round">notifications_active</span><span class="nav-label">Alerts</span>
+        <span class="nav-badge" id="alertBadge">3</span>
+      </a>
+      <a href="https://placement-experience.vercel.app/" target="_blank" rel="noopener noreferrer" class="nav-item" id="nav-placement">
+        <span class="material-icons-round">work</span><span class="nav-label">Placements</span>
+        <span class="nav-badge" style="background:var(--green-500)">New</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-small">RS</div>
+        <div class="user-info-small">
+          <span class="user-name-small">Rohan Sharma</span>
+          <span class="user-role-small">CS-A · 3rd Year</span>
+        </div>
+      </div>
+      <button class="logout-btn" id="logoutBtn" title="Logout">
+        <span class="material-icons-round">logout</span>
+        <span class="logout-label">Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content" id="mainContent">
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" id="menuToggle"><span class="material-icons-round">menu</span></button>
+        <h1 class="page-title" id="pageTitle">Dashboard</h1>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-icon-btn" id="notifBtn">
+          <span class="material-icons-round">notifications</span>
+          <span class="notif-badge">3</span>
+        </button>
+        <div class="topbar-user">
+          <div class="user-avatar">RS</div>
+          <div class="user-info">
+            <span class="user-name">Rohan Sharma</span>
+            <span class="user-role">CS3A-03</span>
+          </div>
+          <span class="material-icons-round">expand_more</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== PAGE 1: DASHBOARD ===== -->
+    <section class="page active" id="page-dashboard">
+      <!-- Warning Banner -->
+      <div class="warning-banner" id="warningBanner">
+        <span class="material-icons-round">warning</span>
+        <div class="warning-content">
+          <strong>Attendance Alert!</strong>
+          <p>Your overall attendance is <strong>68.5%</strong>, which is below the required <strong>75%</strong>. Please attend classes regularly to avoid being detained.</p>
+        </div>
+        <button class="warning-dismiss" id="dismissWarning"><span class="material-icons-round">close</span></button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card stat-card--accent">
+          <div class="stat-ring">
+            <svg viewBox="0 0 80 80">
+              <circle cx="40" cy="40" r="34" fill="none" stroke="#e2e8f0" stroke-width="6"/>
+              <circle cx="40" cy="40" r="34" fill="none" stroke="url(#ringGrad)" stroke-width="6" stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="67.3" transform="rotate(-90 40 40)"/>
+              <defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs>
+            </svg>
+            <span class="ring-value">68.5%</span>
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">Overall Attendance</span>
+            <span class="stat-sub red">Below threshold</span>
+          </div>
+        </div>
+        <div class="stat-card stat-card--green">
+          <div class="stat-icon"><span class="material-icons-round">check_circle</span></div>
+          <div class="stat-body">
+            <span class="stat-value">96</span>
+            <span class="stat-label">Classes Attended</span>
+          </div>
+          <div class="stat-trend up"><span class="material-icons-round">trending_up</span> +4 this week</div>
+        </div>
+        <div class="stat-card stat-card--red">
+          <div class="stat-icon"><span class="material-icons-round">cancel</span></div>
+          <div class="stat-body">
+            <span class="stat-value">44</span>
+            <span class="stat-label">Classes Missed</span>
+          </div>
+          <div class="stat-trend down"><span class="material-icons-round">trending_down</span> -2 this week</div>
+        </div>
+        <div class="stat-card stat-card--status-bad">
+          <div class="stat-icon"><span class="material-icons-round">error</span></div>
+          <div class="stat-body">
+            <span class="stat-value status-text-bad">Low</span>
+            <span class="stat-label">Current Status</span>
+          </div>
+          <div class="stat-trend down"><span class="material-icons-round">info</span> Action required</div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Attendance Trend -->
+        <div class="card chart-card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">show_chart</span> Attendance Trend — Last 14 Days</h2>
+            <div class="card-actions">
+              <select class="small-select" id="trendRange">
+                <option value="14">14 Days</option>
+                <option value="7">7 Days</option>
+              </select>
+            </div>
+          </div>
+          <div class="chart-container"><canvas id="trendChart"></canvas></div>
+        </div>
+        <!-- Quick Subject Overview -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">menu_book</span> Subject Overview</h2>
+            <button class="btn btn-sm btn-outline" onclick="navigateTo('subjects')">View All</button>
+          </div>
+          <div class="subject-bars-list" id="subjectBars"></div>
+        </div>
+        <!-- Placement Experience Button -->
+        <div class="card card--teal">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">work</span> Placement Experience</h2>
+          </div>
+          <div class="card-body">
+            <p>Read real student stories, interview tips, and placement journeys from your college alumni. Get inspired and prepare for your own placement!</p>
+            <a href="https://placement-stories.vercel.app/" target="_blank" class="btn btn-primary" style="width:100%;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:6px;">
+              <span>View Experiences</span><span class="material-icons-round" style="font-size:18px">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+        <!-- Placement Record Button -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">work</span> Placement Record</h2>
+          </div>
+          <div class="card-body">
+            <a href="https://placement-experience.vercel.app/" target="_blank" class="btn btn-primary" style="width:100%">Check Placement Record</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Placement Records CTA -->
+      <a href="https://placement-experience.vercel.app/" target="_blank" rel="noopener noreferrer" class="placement-cta-card" id="placementCta">
+        <div class="placement-cta-left">
+          <div class="placement-cta-icon">
+            <span class="material-icons-round">work</span>
+          </div>
+          <div class="placement-cta-body">
+            <h3 class="placement-cta-title">College Placement Records</h3>
+            <p class="placement-cta-desc">Explore placement stats, company-wise records, student experiences, and salary insights from your college.</p>
+          </div>
+        </div>
+        <div class="placement-cta-action">
+          <span>View Records</span>
+          <span class="material-icons-round">open_in_new</span>
+        </div>
+      </a>
+    </section>
+
+    <!-- ===== PAGE 2: ATTENDANCE DETAILS ===== -->
+    <section class="page" id="page-attendance">
+      <div class="card filter-card">
+        <div class="card-header"><h2 class="card-title"><span class="material-icons-round">tune</span> Filters</h2></div>
+        <div class="filters-row">
+          <div class="form-group"><label class="form-label">Subject</label>
+            <select class="form-select" id="attSubjectFilter"><option>All Subjects</option><option>Machine Learning</option><option>Data Structures</option><option>Operating Systems</option><option>Computer Networks</option><option>Database Systems</option></select>
+          </div>
+          <div class="form-group"><label class="form-label">From</label><input type="date" class="form-input" id="attFrom" /></div>
+          <div class="form-group"><label class="form-label">To</label><input type="date" class="form-input" id="attTo" /></div>
+          <div class="form-group form-group-btn"><button class="btn btn-primary" id="btnFilterAtt"><span class="material-icons-round">filter_list</span> Apply</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-icons-round">fact_check</span> Attendance Log</h2>
+          <span class="record-count" id="recordCount">Showing 30 records</span>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="attendanceTable">
+            <thead><tr><th>#</th><th>Date</th><th>Subject</th><th>Time</th><th>Status</th><th>Confidence</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE 3: SUBJECTS ===== -->
+    <section class="page" id="page-subjects">
+      <div class="subjects-stats" id="subjectStatsCards"></div>
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-icons-round">menu_book</span> Subject-wise Attendance</h2>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="subjectsTable">
+            <thead><tr><th>Subject</th><th>Code</th><th>Total Classes</th><th>Attended</th><th>Missed</th><th>Attendance %</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE 4: REPORTS ===== -->
+    <section class="page" id="page-reports">
+      <div class="report-summary-grid">
+        <div class="report-summary-card">
+          <div class="report-period">
+            <span class="material-icons-round">date_range</span>
+            <span>This Week</span>
+          </div>
+          <div class="report-big-number">72%</div>
+          <div class="report-detail">18 / 25 classes attended</div>
+          <div class="report-bar"><div class="report-bar-fill" style="width:72%;background:var(--red-500)"></div></div>
+        </div>
+        <div class="report-summary-card">
+          <div class="report-period">
+            <span class="material-icons-round">calendar_month</span>
+            <span>This Month</span>
+          </div>
+          <div class="report-big-number">68.5%</div>
+          <div class="report-detail">96 / 140 classes attended</div>
+          <div class="report-bar"><div class="report-bar-fill" style="width:68.5%;background:var(--red-500)"></div></div>
+        </div>
+        <div class="report-summary-card">
+          <div class="report-period">
+            <span class="material-icons-round">school</span>
+            <span>Overall</span>
+          </div>
+          <div class="report-big-number">68.5%</div>
+          <div class="report-detail">96 / 140 classes attended</div>
+          <div class="report-bar"><div class="report-bar-fill" style="width:68.5%;background:var(--red-500)"></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-icons-round">description</span> Detailed Report</h2>
+          <div class="card-actions">
+            <button class="btn btn-sm btn-primary" id="btnDownloadReport"><span class="material-icons-round">download</span> Download PDF</button>
+            <button class="btn btn-sm btn-outline"><span class="material-icons-round">print</span> Print</button>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="reportTable">
+            <thead><tr><th>#</th><th>Date</th><th>Subject</th><th>Status</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE 5: ALERTS ===== -->
+    <section class="page" id="page-alerts">
+      <div class="alerts-summary-row">
+        <div class="mini-stat-card"><span class="material-icons-round mini-stat-icon red">warning</span><div><span class="mini-stat-value">2</span><span class="mini-stat-label">Critical Alerts</span></div></div>
+        <div class="mini-stat-card"><span class="material-icons-round mini-stat-icon orange">info</span><div><span class="mini-stat-value">3</span><span class="mini-stat-label">Warnings</span></div></div>
+        <div class="mini-stat-card"><span class="material-icons-round mini-stat-icon blue">mark_email_read</span><div><span class="mini-stat-value">8</span><span class="mini-stat-label">Total Read</span></div></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-icons-round">notifications</span> Notifications & Alerts</h2>
+          <button class="btn btn-sm btn-outline" id="btnMarkAllRead"><span class="material-icons-round">done_all</span> Mark All Read</button>
+        </div>
+        <div class="alerts-list" id="alertsList"></div>
+      </div>
+    </section>
+
+    <!-- Toast -->
+    <div class="toast-container" id="toastContainer"></div>
+  </main>
+
+  <script src="auth.js"></script>
+  <script>
+    // Auth guard — redirect to login if not authenticated as student
+    AUTH.guard('student');
+    document.getElementById('logoutBtn').addEventListener('click', () => AUTH.logout());
+  </script>
+  <script src="student.js"></script>
+</body>
+</html>

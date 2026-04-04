@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EDU.i — AI-Powered Smart Campus Platform</title>
+  <meta name="description" content="EDU.i is an AI-powered campus management platform featuring facial recognition attendance, smart analytics, and grievance reporting." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="nav-brand-icon"><span class="material-icons-round">hub</span></div>
+        <span class="nav-brand-text">EDU<span class="nav-brand-accent">.i</span></span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#portals" class="nav-link">Portals</a>
+        <a href="#about" class="nav-link">About</a>
+      </div>
+      <div class="nav-actions">
+        <a href="grievance.html" class="btn btn-outline btn-nav">
+          <span class="material-icons-round">campaign</span> Report Grievance
+        </a>
+        <a href="login.html" class="btn btn-primary btn-nav">
+          <span class="material-icons-round">login</span> Login
+        </a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <span class="material-icons-round">menu</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-orb hero-orb-3"></div>
+      <div class="hero-grid-pattern"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="material-icons-round">auto_awesome</span>
+        AI-Powered Campus Management
+      </div>
+      <h1 class="hero-title">
+        Smart Attendance.<br/>
+        <span class="hero-gradient-text">Smarter Campus.</span>
+      </h1>
+      <p class="hero-subtitle">
+        EDU.i uses <strong>facial recognition AI</strong> to automate attendance, 
+        deliver real-time analytics, and empower students, teachers, and administrators 
+        with a unified smart campus platform.
+      </p>
+      <div class="hero-cta-group">
+        <a href="#portals" class="btn btn-primary btn-hero">
+          <span class="material-icons-round">rocket_launch</span> Explore Portals
+        </a>
+        <a href="#features" class="btn btn-glass btn-hero">
+          <span class="material-icons-round">info</span> Learn More
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-value">500+</span>
+          <span class="hero-stat-label">Students Enrolled</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">98.2%</span>
+          <span class="hero-stat-label">Recognition Accuracy</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">12</span>
+          <span class="hero-stat-label">Departments</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURES SECTION ===== -->
+  <section class="section features-section" id="features">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-badge"><span class="material-icons-round">stars</span> Key Features</span>
+        <h2 class="section-title">Everything Your Campus Needs</h2>
+        <p class="section-subtitle">From automated attendance to grievance management — EDU.i brings intelligence to every corner of your campus.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card feature-card--blue">
+          <div class="feature-icon"><span class="material-icons-round">face</span></div>
+          <h3>AI Face Recognition</h3>
+          <p>Automated attendance marking using state-of-the-art facial recognition. Upload class photos and let AI identify students instantly.</p>
+        </div>
+        <div class="feature-card feature-card--purple">
+          <div class="feature-icon"><span class="material-icons-round">analytics</span></div>
+          <h3>Real-time Analytics</h3>
+          <p>Interactive dashboards with attendance trends, subject-wise breakdowns, and class performance comparisons — all updated in real time.</p>
+        </div>
+        <div class="feature-card feature-card--green">
+          <div class="feature-icon"><span class="material-icons-round">notifications_active</span></div>
+          <h3>Smart Alerts</h3>
+          <p>Automatic low-attendance warnings sent to students, teachers, and admins. Configurable thresholds and multi-channel notifications.</p>
+        </div>
+        <div class="feature-card feature-card--orange">
+          <div class="feature-icon"><span class="material-icons-round">campaign</span></div>
+          <h3>Grievance Portal</h3>
+          <p>Secure grievance reporting system with both identity and anonymous modes. Covers academics, harassment, facilities, and more.</p>
+        </div>
+        <div class="feature-card feature-card--pink">
+          <div class="feature-icon"><span class="material-icons-round">shield</span></div>
+          <h3>Anonymous Reporting</h3>
+          <p>Students can report sensitive issues like ragging and harassment without revealing their identity. Protected and confidential.</p>
+        </div>
+        <div class="feature-card feature-card--cyan">
+          <div class="feature-icon"><span class="material-icons-round">devices</span></div>
+          <h3>Fully Responsive</h3>
+          <p>Access the platform from any device — desktop, tablet, or mobile. Designed for on-the-go campus management.</p>
+        </div>
+        <a href="https://placement-experience.vercel.app/" target="_blank" rel="noopener noreferrer" class="feature-card feature-card--teal" style="text-decoration:none;cursor:pointer" id="feature-placement">
+          <div class="feature-icon"><span class="material-icons-round">work</span></div>
+          <h3>Placement Records</h3>
+          <p>Explore your college's placement history, company-wise stats, and student experiences. Plan your career with real data and insights.</p>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:.82rem;font-weight:600;color:var(--primary-500)">
+            <span>View Records</span><span class="material-icons-round" style="font-size:16px">arrow_forward</span>
+          </div>
+        </a>
+        <a href="https://placement-stories.vercel.app/" target="_blank" rel="noopener noreferrer" class="feature-card feature-card--teal" style="text-decoration:none;cursor:pointer" id="feature-placement-experience">
+          <div class="feature-icon"><span class="material-icons-round">work</span></div>
+          <h3>Placement Experience</h3>
+          <p>Read real student stories, interview tips, and placement journeys from your college alumni. Get inspired and prepare for your own placement!</p>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:.82rem;font-weight:600;color:var(--primary-500)">
+            <span>View Experiences</span><span class="material-icons-round" style="font-size:16px">arrow_forward</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="section how-section">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-badge"><span class="material-icons-round">route</span> How It Works</span>
+        <h2 class="section-title">Simple. Fast. Intelligent.</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-icon"><span class="material-icons-round">photo_camera</span></div>
+          <h3>Capture</h3>
+          <p>Teacher uploads classroom photos from multiple angles during a session.</p>
+        </div>
+        <div class="step-connector"><span class="material-icons-round">arrow_forward</span></div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-icon"><span class="material-icons-round">psychology</span></div>
+          <h3>Recognize</h3>
+          <p>AI detects and matches faces against the enrolled student database with high confidence.</p>
+        </div>
+        <div class="step-connector"><span class="material-icons-round">arrow_forward</span></div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-icon"><span class="material-icons-round">fact_check</span></div>
+          <h3>Record</h3>
+          <p>Attendance is automatically generated, reviewed, and saved — with full analytics available instantly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PORTALS SECTION ===== -->
+  <section class="section portals-section" id="portals">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-badge"><span class="material-icons-round">dashboard</span> Access Portals</span>
+        <h2 class="section-title">Choose Your Dashboard</h2>
+        <p class="section-subtitle">Each role has a dedicated portal tailored to their specific needs. Select yours below.</p>
+      </div>
+      <div class="portals-grid">
+        <!-- Student Portal -->
+        <a href="login.html?role=student" class="portal-card portal-card--blue" id="portal-student">
+          <div class="portal-glow"></div>
+          <div class="portal-icon-wrap">
+            <span class="material-icons-round">school</span>
+          </div>
+          <h3 class="portal-title">Student Portal</h3>
+          <p class="portal-desc">Track your attendance, view subject-wise breakdowns, download reports, and receive low-attendance alerts.</p>
+          <ul class="portal-features">
+            <li><span class="material-icons-round">check_circle</span> Attendance Tracker</li>
+            <li><span class="material-icons-round">check_circle</span> Subject Breakdown</li>
+            <li><span class="material-icons-round">check_circle</span> Download Reports</li>
+            <li><span class="material-icons-round">check_circle</span> Smart Alerts</li>
+          </ul>
+          <div class="portal-cta">
+            <span>Open Student Dashboard</span>
+            <span class="material-icons-round">arrow_forward</span>
+          </div>
+        </a>
+
+        <!-- Teacher Portal -->
+        <a href="teacher.html" class="portal-card portal-card--purple" id="portal-teacher">
+          <div class="portal-glow"></div>
+          <div class="portal-icon-wrap">
+            <span class="material-icons-round">person</span>
+          </div>
+          <h3 class="portal-title">Teacher Portal</h3>
+          <p class="portal-desc">Start attendance sessions, upload class photos, review AI recognition results, and manage reports.</p>
+          <ul class="portal-features">
+            <li><span class="material-icons-round">check_circle</span> Start Sessions</li>
+            <li><span class="material-icons-round">check_circle</span> AI Recognition</li>
+            <li><span class="material-icons-round">check_circle</span> Review & Edit</li>
+            <li><span class="material-icons-round">check_circle</span> Reports & Alerts</li>
+          </ul>
+          <div class="portal-cta">
+            <span>Open Teacher Dashboard</span>
+            <span class="material-icons-round">arrow_forward</span>
+          </div>
+        </a>
+
+        <!-- Admin Portal -->
+        <a href="admin.html" class="portal-card portal-card--dark" id="portal-admin">
+          <div class="portal-glow"></div>
+          <div class="portal-icon-wrap">
+            <span class="material-icons-round">admin_panel_settings</span>
+          </div>
+          <h3 class="portal-title">Admin Portal</h3>
+          <p class="portal-desc">Manage students, classes, sessions, and system-wide settings. Full analytics and grievance oversight.</p>
+          <ul class="portal-features">
+            <li><span class="material-icons-round">check_circle</span> Student Management</li>
+            <li><span class="material-icons-round">check_circle</span> Class & Subject Config</li>
+            <li><span class="material-icons-round">check_circle</span> System Analytics</li>
+            <li><span class="material-icons-round">check_circle</span> Grievance Reports</li>
+          </ul>
+          <div class="portal-cta">
+            <span>Open Admin Dashboard</span>
+            <span class="material-icons-round">arrow_forward</span>
+          </div>
+        </a>
+
+        <!-- Grievance Portal -->
+        <a href="grievance.html" class="portal-card portal-card--orange" id="portal-grievance">
+          <div class="portal-glow"></div>
+          <div class="portal-icon-wrap">
+            <span class="material-icons-round">campaign</span>
+          </div>
+          <h3 class="portal-title">Grievance Portal</h3>
+          <p class="portal-desc">Report campus issues securely — academic, facility, or safety concerns. Anonymous reporting available.</p>
+          <ul class="portal-features">
+            <li><span class="material-icons-round">check_circle</span> Normal Reports</li>
+            <li><span class="material-icons-round">check_circle</span> Anonymous Reports</li>
+            <li><span class="material-icons-round">check_circle</span> 10+ Categories</li>
+            <li><span class="material-icons-round">check_circle</span> Firebase Backed</li>
+          </ul>
+          <div class="portal-cta">
+            <span>Report a Grievance</span>
+            <span class="material-icons-round">arrow_forward</span>
+          </div>
+        </a>
+
+        <!-- Placement Records (external) -->
+        <a href="https://placement-experience.vercel.app/" target="_blank" rel="noopener noreferrer" class="portal-card portal-card--teal" id="portal-placement">
+          <div class="portal-glow"></div>
+          <div class="portal-icon-wrap">
+            <span class="material-icons-round">work</span>
+          </div>
+          <h3 class="portal-title">Placement Records</h3>
+          <p class="portal-desc">View your college’s placement history, company-wise data, and student experiences — opens in a new tab.</p>
+          <ul class="portal-features">
+            <li><span class="material-icons-round">check_circle</span> Placement stats</li>
+            <li><span class="material-icons-round">check_circle</span> Company insights</li>
+            <li><span class="material-icons-round">check_circle</span> Student stories</li>
+            <li><span class="material-icons-round">check_circle</span> Salary trends</li>
+          </ul>
+          <div class="portal-cta">
+            <span>Check Placement Record</span>
+            <span class="material-icons-round">open_in_new</span>
+          </div>
+        </a>
+        <!-- Placement Experience (external) -->
+        <a href="https://placement-stories.vercel.app/" target="_blank" rel="noopener noreferrer" class="portal-card portal-card--teal" id="portal-placement-experience">
+          <div class="portal-glow"></div>
+          <div class="portal-icon-wrap">
+            <span class="material-icons-round">work</span>
+          </div>
+          <h3 class="portal-title">Placement Experience</h3>
+          <p class="portal-desc">Read real student stories, interview tips, and placement journeys from your college alumni — opens in a new tab.</p>
+          <ul class="portal-features">
+            <li><span class="material-icons-round">check_circle</span> Student stories</li>
+            <li><span class="material-icons-round">check_circle</span> Interview tips</li>
+            <li><span class="material-icons-round">check_circle</span> Alumni journeys</li>
+            <li><span class="material-icons-round">check_circle</span> Inspiration</li>
+          </ul>
+          <div class="portal-cta">
+            <span>Check Placement Experience</span>
+            <span class="material-icons-round">open_in_new</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT / FOOTER ===== -->
+  <section class="section about-section" id="about">
+    <div class="section-container">
+      <div class="about-grid">
+        <div class="about-content">
+          <span class="section-badge"><span class="material-icons-round">info</span> About EDU.i</span>
+          <h2 class="section-title" style="text-align:left">Built for Modern Campuses</h2>
+          <p class="about-text">
+            EDU.i is an AI-powered smart campus platform designed to digitize and automate the traditional
+            attendance management process. By leveraging facial recognition technology, EDU.i eliminates
+            proxy attendance, reduces manual workload, and provides actionable insights through real-time analytics.
+          </p>
+          <p class="about-text">
+            The platform also includes a comprehensive grievance reporting system, enabling students to voice
+            their concerns — anonymously if needed — about academic, safety, or facility issues.
+          </p>
+          <div class="about-tech">
+            <span class="tech-tag">AI / ML</span>
+            <span class="tech-tag">Face Recognition</span>
+            <span class="tech-tag">Firebase</span>
+            <span class="tech-tag">Real-time DB</span>
+            <span class="tech-tag">Canvas API</span>
+            <span class="tech-tag">Responsive Design</span>
+          </div>
+        </div>
+        <div class="about-stats-card">
+          <h3>Platform Highlights</h3>
+          <div class="about-stat-item">
+            <span class="material-icons-round">groups</span>
+            <div><strong>4 Portals</strong><span>Student, Teacher, Admin, Grievance</span></div>
+          </div>
+          <div class="about-stat-item">
+            <span class="material-icons-round">web</span>
+            <div><strong>20+ Pages</strong><span>Fully functional dashboard interfaces</span></div>
+          </div>
+          <div class="about-stat-item">
+            <span class="material-icons-round">speed</span>
+            <div><strong>Zero Dependencies</strong><span>Pure HTML, CSS, JavaScript</span></div>
+          </div>
+          <div class="about-stat-item">
+            <span class="material-icons-round">cloud</span>
+            <div><strong>Firebase Integration</strong><span>Real-time grievance data sync</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="section-container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-brand">
+            <div class="nav-brand-icon"><span class="material-icons-round">hub</span></div>
+            <span class="nav-brand-text">EDU<span class="nav-brand-accent">.i</span></span>
+          </div>
+          <p class="footer-tagline">AI-Powered Smart Campus Management Platform</p>
+        </div>
+        <div class="footer-links-group">
+          <h4>Quick Links</h4>
+          <a href="login.html?role=student">Student Dashboard</a>
+          <a href="login.html?role=teacher">Teacher Dashboard</a>
+          <a href="login.html?role=admin">Admin Panel</a>
+          <a href="grievance.html">Grievance Portal</a>
+          <a href="https://placement-experience.vercel.app/" target="_blank" rel="noopener noreferrer">Placement Records</a>
+        </div>
+        <div class="footer-links-group">
+          <h4>Features</h4>
+          <a href="#features">AI Recognition</a>
+          <a href="#features">Real-time Analytics</a>
+          <a href="#features">Smart Alerts</a>
+          <a href="#features">Anonymous Reporting</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 EDU.i — Built for DY Patil Hackathon</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="styles.js"></script>
+</body>
+</html>

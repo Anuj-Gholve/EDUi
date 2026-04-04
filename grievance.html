@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EDU.i — Grievance Reporting</title>
+  <meta name="description" content="EDU.i Grievance Reporting Module — submit normal or anonymous reports securely." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+  <link rel="stylesheet" href="grievance.css" />
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-brand">
+        <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:8px">
+          <div class="brand-icon"><span class="material-icons-round">campaign</span></div>
+          <div>
+            <span class="brand-text">EDU<span class="brand-accent">.i</span></span>
+            <span class="brand-sub">Grievance Portal</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-right">
+        <div class="firebase-status" id="firebaseStatus">
+          <span class="status-dot"></span>
+          <span class="status-text">Connecting…</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="normal" id="tabNormal">
+        <span class="material-icons-round">person</span>
+        <span>Normal Report</span>
+      </button>
+      <button class="tab-btn" data-tab="anonymous" id="tabAnonymous">
+        <span class="material-icons-round">visibility_off</span>
+        <span>Anonymous Report</span>
+      </button>
+    </div>
+
+    <!-- ===== NORMAL REPORT TAB ===== -->
+    <section class="tab-content active" id="tab-normal">
+      <div class="page-intro">
+        <div class="intro-icon"><span class="material-icons-round">description</span></div>
+        <div>
+          <h2>Submit a Report</h2>
+          <p>Your identity will be recorded with this report. Fill in all required fields to submit your grievance.</p>
+        </div>
+      </div>
+
+      <form class="report-form" id="normalForm" onsubmit="submitNormalReport(event)">
+        <div class="form-card">
+          <h3 class="form-section-title"><span class="material-icons-round">person</span> Your Information</h3>
+          <div class="form-group">
+            <label class="form-label" for="normal_student_name">Student Name <span class="required">*</span></label>
+            <input type="text" class="form-input" id="normal_student_name" name="student_name" placeholder="Enter your full name" required />
+          </div>
+        </div>
+
+        <div class="form-card">
+          <h3 class="form-section-title"><span class="material-icons-round">category</span> Grievance Details</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="normal_category">Category <span class="required">*</span></label>
+              <select class="form-select" id="normal_category" name="category" required>
+                <option value="">Select category</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="normal_problem">Problem <span class="required">*</span></label>
+              <select class="form-select" id="normal_problem" name="problem" required disabled>
+                <option value="">Select problem</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="normal_description">Description <span class="required">*</span></label>
+            <textarea class="form-textarea" id="normal_description" name="description" rows="5" placeholder="Describe your grievance in detail…" required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Severity <span class="required">*</span></label>
+            <div class="severity-group">
+              <label class="severity-option">
+                <input type="radio" name="severity" value="Low" required />
+                <span class="severity-chip low"><span class="material-icons-round">info</span> Low</span>
+              </label>
+              <label class="severity-option">
+                <input type="radio" name="severity" value="Medium" />
+                <span class="severity-chip medium"><span class="material-icons-round">warning</span> Medium</span>
+              </label>
+              <label class="severity-option">
+                <input type="radio" name="severity" value="High" />
+                <span class="severity-chip high"><span class="material-icons-round">error</span> High</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <h3 class="form-section-title"><span class="material-icons-round">attach_file</span> Attachments (Optional)</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Photo Upload</label>
+              <div class="upload-zone" id="normalPhotoZone">
+                <input type="file" name="photo_upload[]" accept="image/*" multiple class="upload-input" id="normalPhotoInput" />
+                <span class="material-icons-round upload-icon">add_photo_alternate</span>
+                <span class="upload-text">Click or drag photos here</span>
+                <span class="upload-hint">JPG, PNG — Multiple files allowed</span>
+              </div>
+              <div class="preview-list" id="normalPhotoPreview"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Video Upload</label>
+              <div class="upload-zone" id="normalVideoZone">
+                <input type="file" name="video_upload[]" accept="video/*" multiple class="upload-input" id="normalVideoInput" />
+                <span class="material-icons-round upload-icon">videocam</span>
+                <span class="upload-text">Click or drag videos here</span>
+                <span class="upload-hint">MP4, MOV — Multiple files allowed</span>
+              </div>
+              <div class="preview-list" id="normalVideoPreview"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="reset" class="btn btn-outline"><span class="material-icons-round">restart_alt</span> Reset</button>
+          <button type="submit" class="btn btn-primary btn-lg" id="normalSubmitBtn">
+            <span class="material-icons-round">send</span> Submit Report
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ===== ANONYMOUS REPORT TAB ===== -->
+    <section class="tab-content" id="tab-anonymous">
+      <div class="page-intro anon">
+        <div class="intro-icon anon"><span class="material-icons-round">visibility_off</span></div>
+        <div>
+          <h2>Anonymous Report</h2>
+          <p>Your identity will <strong>NOT</strong> be recorded. Use this for sensitive issues where you wish to remain anonymous.</p>
+        </div>
+      </div>
+
+      <form class="report-form" id="anonymousForm" onsubmit="submitAnonymousReport(event)">
+        <div class="form-card">
+          <div class="anon-badge-bar">
+            <span class="material-icons-round">shield</span>
+            <span>Identity Protected — No personal information is collected</span>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <h3 class="form-section-title"><span class="material-icons-round">category</span> Grievance Details</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="anon_category">Category <span class="required">*</span></label>
+              <select class="form-select" id="anon_category" name="category" required>
+                <option value="">Select category</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="anon_problem">Problem <span class="required">*</span></label>
+              <select class="form-select" id="anon_problem" name="problem" required disabled>
+                <option value="">Select problem</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="anon_description">Description <span class="required">*</span></label>
+            <textarea class="form-textarea" id="anon_description" name="description" rows="5" placeholder="Describe your grievance in detail…" required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Severity <span class="required">*</span></label>
+            <div class="severity-group">
+              <label class="severity-option">
+                <input type="radio" name="severity" value="Low" required />
+                <span class="severity-chip low"><span class="material-icons-round">info</span> Low</span>
+              </label>
+              <label class="severity-option">
+                <input type="radio" name="severity" value="Medium" />
+                <span class="severity-chip medium"><span class="material-icons-round">warning</span> Medium</span>
+              </label>
+              <label class="severity-option">
+                <input type="radio" name="severity" value="High" />
+                <span class="severity-chip high"><span class="material-icons-round">error</span> High</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <h3 class="form-section-title"><span class="material-icons-round">attach_file</span> Attachments (Optional)</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Photo Upload</label>
+              <div class="upload-zone" id="anonPhotoZone">
+                <input type="file" name="photo_upload[]" accept="image/*" multiple class="upload-input" id="anonPhotoInput" />
+                <span class="material-icons-round upload-icon">add_photo_alternate</span>
+                <span class="upload-text">Click or drag photos here</span>
+                <span class="upload-hint">JPG, PNG — Multiple files allowed</span>
+              </div>
+              <div class="preview-list" id="anonPhotoPreview"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Video Upload</label>
+              <div class="upload-zone" id="anonVideoZone">
+                <input type="file" name="video_upload[]" accept="video/*" multiple class="upload-input" id="anonVideoInput" />
+                <span class="material-icons-round upload-icon">videocam</span>
+                <span class="upload-text">Click or drag videos here</span>
+                <span class="upload-hint">MP4, MOV — Multiple files allowed</span>
+              </div>
+              <div class="preview-list" id="anonVideoPreview"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="reset" class="btn btn-outline"><span class="material-icons-round">restart_alt</span> Reset</button>
+          <button type="submit" class="btn btn-accent btn-lg" id="anonSubmitBtn">
+            <span class="material-icons-round">send</span> Submit Anonymously
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Success Overlay -->
+    <div class="success-overlay" id="successOverlay">
+      <div class="success-card">
+        <div class="success-icon"><span class="material-icons-round">check_circle</span></div>
+        <h2 class="success-title" id="successTitle">Report Submitted!</h2>
+        <p class="success-message" id="successMessage">Your grievance has been recorded and will be reviewed shortly.</p>
+        <button class="btn btn-primary" id="successClose"><span class="material-icons-round">done</span> Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="grievance.js"></script>
+</body>
+</html>

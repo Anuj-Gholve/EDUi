@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EDU.i — Admin Dashboard</title>
+  <meta name="description"
+    content="EDU.i Admin Panel — manage students, classes, sessions, and analytics for AI-powered attendance." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+
+<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
+
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:8px">
+        <div class="brand-icon">
+          <span class="material-icons-round">admin_panel_settings</span>
+        </div>
+        <span class="brand-text">EDU<span class="brand-accent">.i</span> <span class="brand-badge">Admin</span></span>
+      </a>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-page="dashboard" id="nav-dashboard">
+        <span class="material-icons-round">dashboard</span>
+        <span class="nav-label">Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" data-page="students" id="nav-students">
+        <span class="material-icons-round">school</span>
+        <span class="nav-label">Students</span>
+      </a>
+      <a href="#" class="nav-item" data-page="classes" id="nav-classes">
+        <span class="material-icons-round">class</span>
+        <span class="nav-label">Classes &amp; Subjects</span>
+      </a>
+      <a href="#" class="nav-item" data-page="attendance" id="nav-attendance">
+        <span class="material-icons-round">checklist</span>
+        <span class="nav-label">Attendance Records</span>
+      </a>
+      <a href="#" class="nav-item" data-page="sessions" id="nav-sessions">
+        <span class="material-icons-round">videocam</span>
+        <span class="nav-label">Sessions</span>
+      </a>
+      <a href="#" class="nav-item" data-page="reports" id="nav-reports">
+        <span class="material-icons-round">assessment</span>
+        <span class="nav-label">Reports</span>
+      </a>
+      <a href="#" class="nav-item" data-page="alerts" id="nav-alerts">
+        <span class="material-icons-round">notifications_active</span>
+        <span class="nav-label">Alerts</span>
+      </a>
+      <a href="#" class="nav-item" data-page="settings" id="nav-settings">
+        <span class="material-icons-round">settings</span>
+        <span class="nav-label">Settings</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-small">SA</div>
+        <div class="user-info-small">
+          <span class="user-name-small">Super Admin</span>
+          <span class="user-role-small">System Administrator</span>
+        </div>
+      </div>
+      <button class="logout-btn" id="logoutBtn" title="Logout">
+        <span class="material-icons-round">logout</span>
+        <span class="logout-label">Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content" id="mainContent">
+    <!-- Top Navbar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" id="menuToggle">
+          <span class="material-icons-round">menu</span>
+        </button>
+        <h1 class="page-title" id="pageTitle">Dashboard</h1>
+      </div>
+      <div class="topbar-right">
+        <div class="search-box">
+          <span class="material-icons-round">search</span>
+          <input type="text" placeholder="Search anything…" id="globalSearch" />
+        </div>
+        <button class="topbar-icon-btn" id="notifBtn">
+          <span class="material-icons-round">notifications</span>
+          <span class="notif-badge">5</span>
+        </button>
+        <div class="topbar-user" id="topbarUser">
+          <div class="user-avatar">SA</div>
+          <div class="user-info">
+            <span class="user-name">Super Admin</span>
+            <span class="user-role">System Administrator</span>
+          </div>
+          <span class="material-icons-round">expand_more</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== PAGE 1: DASHBOARD ===== -->
+    <section class="page active" id="page-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card stat-card--blue">
+          <div class="stat-icon"><span class="material-icons-round">groups</span></div>
+          <div class="stat-body">
+            <span class="stat-value">482</span>
+            <span class="stat-label">Total Students</span>
+          </div>
+          <div class="stat-trend up"><span class="material-icons-round">trending_up</span> +24</div>
+        </div>
+        <div class="stat-card stat-card--purple">
+          <div class="stat-icon"><span class="material-icons-round">meeting_room</span></div>
+          <div class="stat-body">
+            <span class="stat-value">12</span>
+            <span class="stat-label">Total Classes</span>
+          </div>
+          <div class="stat-trend up"><span class="material-icons-round">trending_up</span> +2</div>
+        </div>
+        <div class="stat-card stat-card--green">
+          <div class="stat-icon"><span class="material-icons-round">play_circle</span></div>
+          <div class="stat-body">
+            <span class="stat-value">3</span>
+            <span class="stat-label">Active Sessions</span>
+          </div>
+          <div class="stat-trend up"><span class="material-icons-round">radio_button_checked</span> Live</div>
+        </div>
+        <div class="stat-card stat-card--cyan">
+          <div class="stat-icon"><span class="material-icons-round">percent</span></div>
+          <div class="stat-body">
+            <span class="stat-value">81.3%</span>
+            <span class="stat-label">Avg. Attendance</span>
+          </div>
+          <div class="stat-trend up"><span class="material-icons-round">trending_up</span> +1.8%</div>
+        </div>
+        <div class="stat-card stat-card--orange">
+          <div class="stat-icon"><span class="material-icons-round">warning</span></div>
+          <div class="stat-body">
+            <span class="stat-value">34</span>
+            <span class="stat-label">Low Attendance</span>
+          </div>
+          <div class="stat-trend down"><span class="material-icons-round">trending_down</span> &lt;75%</div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Attendance Trend -->
+        <div class="card chart-card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">show_chart</span> Attendance Trend</h2>
+            <div class="card-actions">
+              <select class="small-select" id="trendPeriod">
+                <option>Weekly</option>
+                <option>Monthly</option>
+              </select>
+            </div>
+          </div>
+          <div class="chart-container"><canvas id="trendChart"></canvas></div>
+        </div>
+        <!-- Class-wise Comparison -->
+        <div class="card chart-card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">bar_chart</span> Class-wise Attendance</h2>
+          </div>
+          <div class="chart-container"><canvas id="classChart"></canvas></div>
+        </div>
+        <!-- Placement Experience Button -->
+        <div class="card card--teal">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">work</span> Placement Experience</h2>
+          </div>
+          <div class="card-body">
+            <p>Read real student stories, interview tips, and placement journeys from your college alumni. Get inspired and prepare for your own placement!</p>
+            <a href="https://placement-stories.vercel.app/" target="_blank" class="btn btn-primary" style="width:100%;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:6px;">
+              <span>View Experiences</span><span class="material-icons-round" style="font-size:18px">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+        <!-- Placement Record Button -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">work</span> Placement Record</h2>
+          </div>
+          <div class="card-body">
+            <a href="https://placement-experience.vercel.app/" target="_blank" class="btn btn-primary" style="width:100%">Check Placement Record</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Sessions Table -->
+      <div class="card" style="margin-top:24px">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-icons-round">history</span> Recently Marked Sessions</h2>
+          <button class="btn btn-sm btn-outline" onclick="navigateTo('sessions')">View All</button>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="recentSessionsTable">
+            <thead>
+              <tr>
+                <th>Session ID</th>
+                <th>Class</th>
+                <th>Subject</th>
+                <th>Date</th>
+                <th>Teacher</th>
+                <th>Present</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE 2: STUDENTS ===== -->
+    <section class="page" id="page-students">
+      <div class="page-toolbar">
+        <div class="toolbar-left">
+          <div class="search-box">
+            <span class="material-icons-round">search</span>
+            <input type="text" placeholder="Search students…" id="studentSearch" />
+          </div>
+          <select class="small-select" id="studentFilterClass">
+            <option>All Classes</option>
+            <option>CS-A (3rd Year)</option>
+            <option>CS-B (3rd Year)</option>
+            <option>IT-A (2nd Year)</option>
+            <option>IT-B (2nd Year)</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="btnAddStudent">
+          <span class="material-icons-round">person_add</span> Add Student
+        </button>
+      </div>
+      <div class="card">
+        <div class="table-wrapper">
+          <table class="data-table" id="studentsTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Student Name</th>
+                <th>Student ID</th>
+                <th>Class</th>
+                <th>Section</th>
+                <th>Email</th>
+                <th>Attendance %</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE 3: CLASSES & SUBJECTS ===== -->
+    <section class="page" id="page-classes">
+      <div class="classes-grid">
+        <!-- Classes -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">meeting_room</span> Classes</h2>
+            <button class="btn btn-sm btn-primary" id="btnAddClass"><span class="material-icons-round">add</span> Add
+              Class</button>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table" id="classesTable">
+              <thead>
+                <tr>
+                  <th>Class</th>
+                  <th>Section</th>
+                  <th>Students</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <!-- Subjects -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">menu_book</span> Subjects</h2>
+            <button class="btn btn-sm btn-primary" id="btnAddSubject"><span class="material-icons-round">add</span> Add
+              Subject</button>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table" id="subjectsTable">
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Code</th>
+                  <th>Assigned Classes</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE 4: ATTENDANCE RECORDS ===== -->
+    <section class="page" id="page-attendance">
+      <div class="card filter-card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-icons-round">tune</span> Filters</h2>
+        </div>
+        <div class="filters-row">
+          <div class="form-group"><label class="form-label">Class</label><select class="form-select"
+              id="attFilterClass">
+              <option>All Classes</option>
+              <option>CS-A (3rd Year)</option>
+              <option>CS-B (3rd Year)</option>
+              <option>IT-A (2nd Year)</option>
+              <option>IT-B (2nd Year)</option>
+            </select></div>
+          <div class="form-group"><label class="form-label">Subject</label><select class="form-select"
+              id="attFilterSubject">
+              <option>All Subjects</option>
+              <option>Machine Learning</option>
+              <option>Data Structures</option>
+              <option>Operating Systems</option>
+              <option>Computer Networks</option>
+            </select></div>
+          <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-input"
+              id="attFilterDate" /></div>
+          <div class="form-group form-group-btn"><button class="btn btn-primary" id="btnFilterAtt"><span
+                class="material-icons-round">filter_list</span> Apply</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-icons-round">fact_check</span> Attendance Records</h2>
+          <div class="card-actions">
+            <button class="btn btn-sm btn-outline"><span class="material-icons-round">download</span> Export</button>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="attendanceTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Student Name</th>
+                <th>Date</th>
+                <th>Subject</th>
+                <th>Status</th>
+                <th>Confidence</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE 5: SESSIONS ===== -->
+    <section class="page" id="page-sessions">
+      <div class="page-toolbar">
+        <div class="toolbar-left">
+          <select class="small-select" id="sessionStatusFilter">
+            <option>All Sessions</option>
+            <option>Active</option>
+            <option>Completed</option>
+          </select>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-icons-round">videocam</span> Session Management</h2>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="sessionsTable">
+            <thead>
+              <tr>
+                <th>Session ID</th>
+                <th>Class</th>
+                <th>Subject</th>
+                <th>Teacher</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE 6: REPORTS ===== -->
+    <section class="page" id="page-reports">
+      <div class="card filter-card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-icons-round">tune</span> Report Filters</h2>
+        </div>
+        <div class="filters-row">
+          <div class="form-group"><label class="form-label">Class</label><select class="form-select" id="rptClass">
+              <option>All Classes</option>
+              <option>CS-A (3rd Year)</option>
+              <option>CS-B (3rd Year)</option>
+              <option>IT-A (2nd Year)</option>
+              <option>IT-B (2nd Year)</option>
+            </select></div>
+          <div class="form-group"><label class="form-label">Subject</label><select class="form-select" id="rptSubject">
+              <option>All Subjects</option>
+              <option>Machine Learning</option>
+              <option>Data Structures</option>
+              <option>Operating Systems</option>
+            </select></div>
+          <div class="form-group"><label class="form-label">From</label><input type="date" class="form-input"
+              id="rptFrom" /></div>
+          <div class="form-group"><label class="form-label">To</label><input type="date" class="form-input"
+              id="rptTo" /></div>
+          <div class="form-group form-group-btn"><button class="btn btn-primary" id="btnGenReport"><span
+                class="material-icons-round">search</span> Generate</button></div>
+        </div>
+      </div>
+      <div class="dashboard-grid" style="margin-bottom:24px">
+        <div class="card chart-card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">donut_large</span> Attendance Overview</h2>
+          </div>
+          <div class="chart-container"><canvas id="reportPieChart"></canvas></div>
+        </div>
+        <div class="card chart-card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">leaderboard</span> Class Performance</h2>
+          </div>
+          <div class="chart-container"><canvas id="reportBarChart"></canvas></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-icons-round">table_chart</span> Student Report</h2>
+          <div class="card-actions">
+            <button class="btn btn-sm btn-outline"><span class="material-icons-round">download</span> Export
+              CSV</button>
+            <button class="btn btn-sm btn-outline"><span class="material-icons-round">print</span> Print</button>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="reportTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Student Name</th>
+                <th>Class</th>
+                <th>Total Classes</th>
+                <th>Present</th>
+                <th>Attendance %</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 🔥 CHECK REPORTS SECTION -->
+    <div class="card" style="margin-bottom: 20px;">
+      <div class="card-header">
+        <h2 class="card-title">
+          <span class="material-icons-round">report</span>
+          Check Reports
+        </h2>
+      </div>
+
+      <div style="display:flex; gap:10px; margin-bottom:15px;">
+        <button class="btn btn-primary" onclick="showNormalReports()">
+          Normal Reports
+        </button>
+
+        <button class="btn btn-outline" onclick="showAnonymousReports()">
+          Anonymous Reports
+        </button>
+      </div>
+
+      <!-- Output -->
+      <div id="reportsContainer"></div>
+      <div id="anonymousReportsContainer"></div>
+    </div>
+
+    </section>
+
+
+    
+
+    <!-- ===== PAGE 7: ALERTS ===== -->
+    <section class="page" id="page-alerts">
+      <div class="alerts-header-row">
+        <div class="card alerts-config-card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">tune</span> Threshold & Alert Settings</h2>
+          </div>
+          <div class="alert-config-body">
+            <div class="alert-threshold">
+              <span class="threshold-label">Attendance Threshold</span>
+              <div class="threshold-control">
+                <input type="range" min="50" max="90" value="75" id="thresholdSlider" class="range-slider" />
+                <span class="threshold-value" id="thresholdValue">75%</span>
+              </div>
+            </div>
+            <div class="alert-toggle-row"><span>Auto Alerts</span><label class="toggle-switch"><input type="checkbox"
+                  id="autoAlertToggle" checked /><span class="toggle-slider"></span></label></div>
+            <div class="alert-toggle-row"><span>Email Notifications</span><label class="toggle-switch"><input
+                  type="checkbox" id="emailToggle" checked /><span class="toggle-slider"></span></label></div>
+            <div class="alert-toggle-row"><span>SMS Notifications</span><label class="toggle-switch"><input
+                  type="checkbox" id="smsToggle" /><span class="toggle-slider"></span></label></div>
+          </div>
+        </div>
+        <div class="alert-stat-cards">
+          <div class="mini-stat-card"><span class="material-icons-round mini-stat-icon red">warning</span>
+            <div><span class="mini-stat-value">34</span><span class="mini-stat-label">Below Threshold</span></div>
+          </div>
+          <div class="mini-stat-card"><span class="material-icons-round mini-stat-icon orange">email</span>
+            <div><span class="mini-stat-value">22</span><span class="mini-stat-label">Alerts Sent Today</span></div>
+          </div>
+          <div class="mini-stat-card"><span class="material-icons-round mini-stat-icon green">mark_email_read</span>
+            <div><span class="mini-stat-value">15</span><span class="mini-stat-label">Acknowledged</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="material-icons-round">notification_important</span> Low Attendance
+            Students</h2>
+          <button class="btn btn-sm btn-accent" id="btnSendAllAlerts"><span class="material-icons-round">send</span>
+            Send All Alerts</button>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="alertsTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Student Name</th>
+                <th>Class</th>
+                <th>Attendance %</th>
+                <th>Email</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE 8: SETTINGS ===== -->
+    <section class="page" id="page-settings">
+      <div class="settings-grid">
+        <!-- Admin Profile -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">person</span> Admin Profile</h2>
+          </div>
+          <div class="settings-body">
+            <div class="profile-header-card">
+              <div class="profile-avatar-lg">SA</div>
+              <div>
+                <h3 class="profile-name">Super Admin</h3>
+                <p class="profile-email">admin@edui.edu</p>
+              </div>
+            </div>
+            <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="form-input"
+                value="Super Admin" /></div>
+            <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input"
+                value="admin@edui.edu" /></div>
+            <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-input"
+                value="+91 98765 43210" /></div>
+            <div class="form-group"><label class="form-label">Role</label><input type="text" class="form-input"
+                value="System Administrator" disabled /></div>
+            <button class="btn btn-primary"><span class="material-icons-round">save</span> Save Profile</button>
+          </div>
+        </div>
+        <!-- Email Config -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">email</span> Email Configuration</h2>
+          </div>
+          <div class="settings-body">
+            <div class="form-group"><label class="form-label">SMTP Server</label><input type="text" class="form-input"
+                value="smtp.edui.edu" /></div>
+            <div class="form-group"><label class="form-label">SMTP Port</label><input type="text" class="form-input"
+                value="587" /></div>
+            <div class="form-group"><label class="form-label">Sender Email</label><input type="email" class="form-input"
+                value="no-reply@edui.edu" /></div>
+            <div class="form-group"><label class="form-label">Authentication</label>
+              <select class="form-select">
+                <option>TLS</option>
+                <option>SSL</option>
+                <option>None</option>
+              </select>
+            </div>
+            <button class="btn btn-primary"><span class="material-icons-round">save</span> Save Email Config</button>
+          </div>
+        </div>
+        <!-- System Preferences -->
+        <div class="card" style="grid-column:1/-1">
+          <div class="card-header">
+            <h2 class="card-title"><span class="material-icons-round">tune</span> System Preferences</h2>
+          </div>
+          <div class="settings-body prefs-grid">
+            <div class="pref-item">
+              <div class="pref-info"><span class="pref-title">Dark Mode</span><span class="pref-desc">Enable dark theme
+                  for the admin panel</span></div><label class="toggle-switch"><input type="checkbox" /><span
+                  class="toggle-slider"></span></label>
+            </div>
+            <div class="pref-item">
+              <div class="pref-info"><span class="pref-title">Two-Factor Authentication</span><span
+                  class="pref-desc">Require 2FA for admin login</span></div><label class="toggle-switch"><input
+                  type="checkbox" checked /><span class="toggle-slider"></span></label>
+            </div>
+            <div class="pref-item">
+              <div class="pref-info"><span class="pref-title">Session Timeout</span><span class="pref-desc">Auto logout
+                  after inactivity</span></div><select class="small-select">
+                <option>15 minutes</option>
+                <option>30 minutes</option>
+                <option>1 hour</option>
+                <option>Never</option>
+              </select>
+            </div>
+            <div class="pref-item">
+              <div class="pref-info"><span class="pref-title">Default Confidence Threshold</span><span
+                  class="pref-desc">Minimum confidence for auto-marking</span></div><select class="small-select">
+                <option>70%</option>
+                <option>75%</option>
+                <option>80%</option>
+                <option>85%</option>
+              </select>
+            </div>
+            <div class="pref-item">
+              <div class="pref-info"><span class="pref-title">Data Retention</span><span class="pref-desc">How long to
+                  keep attendance records</span></div><select class="small-select">
+                <option>1 Year</option>
+                <option>2 Years</option>
+                <option>5 Years</option>
+                <option>Forever</option>
+              </select>
+            </div>
+            <div class="pref-item">
+              <div class="pref-info"><span class="pref-title">Auto Backup</span><span class="pref-desc">Automatic daily
+                  database backup</span></div><label class="toggle-switch"><input type="checkbox" checked /><span
+                  class="toggle-slider"></span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MODAL ===== -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal" id="modal">
+        <div class="modal-header">
+          <h2 class="modal-title" id="modalTitle">Add Student</h2>
+          <button class="modal-close" id="modalClose"><span class="material-icons-round">close</span></button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+        <div class="modal-footer" id="modalFooter">
+          <button class="btn btn-outline" id="modalCancel">Cancel</button>
+          <button class="btn btn-primary" id="modalSave"><span class="material-icons-round">save</span> Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+  </main>
+
+  <script src="auth.js"></script>
+  <script>
+    // Auth guard — redirect to login if not authenticated as admin
+    AUTH.guard('admin');
+    document.getElementById('logoutBtn').addEventListener('click', () => AUTH.logout());
+  </script>
+  <script src="admin.js"></script>
+</body>
+
+</html>
